@@ -7,20 +7,24 @@ fetch(fileUrl)
     })
     .then(content => {
         let items = content.split('\n');
-        let urlParams = new URLSearchParams(window.location.search);
-        let count = parseInt(urlParams.get('count')) || 1;
-        let data = getData(items, count);
-       
-        for (let i = 0; i < data.length; i++) {
-            document.getElementById('output').innerHTML += `<h3>${data[i]}</h3>`;
-        }
+        showData(items)
+
+        setInterval(() => {
+            showData(items)
+        }, 10000);
     })
     .catch(error => {
         console.error('Error:', error);
-        document.getElementById('output').textContent = 'Error fetching the file.';
+        document.getElementById('output').textContent = 'Error';
     });
 
-function getData(motivations, count) {
+
+
+function showData(items) {
+    document.getElementById('output').innerText = getData(items);
+}
+
+function getData(motivations, count = 1) {
     let data = [];
     for (let i = 0; i < count; i++) {
         let itemCount = motivations.length;
